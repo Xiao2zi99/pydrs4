@@ -183,16 +183,23 @@ def getcelltime(Event, channel, index):
     
     return tch_i
 
-def allignchannels(Event, channel):
+def allignchannels(Eventch1, Eventch2):
     
-    #Equation 5.2 in Masterthesis
-    index = (1024 - Event.triggercell)%1024
-    tch_0  = getcelltime(Event, channel, index)
+    #Equation 5.2 in Masterthesis using channel 1 as the reference
+    index = (1024 - Eventch1.triggercell)%1024
+    tch_0  = getcelltime(Eventch1, 1, index)
+    
+    
+    index = (1024 - Eventch2.triggercell)%1024
+    t0_0 = getcelltime(Eventch2, 2, index)
     
     #alligning the channels: Euation 5.3 in Masterthesis
+    tch_i = getcelltime(Eventch2, 2, Eventch2.maxindex)
     
+    tch_i_corrected = tch_i - (tch_0 - t0_0)
     
-    pass
+    return tch_i_corrected
+
 
 def get_pair_candidates(startlist, stoplist):
     candidate_pairs = []
